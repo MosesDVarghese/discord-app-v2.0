@@ -1,35 +1,71 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import {
+  HomeModernIcon,
+  ChatBubbleOvalLeftIcon,
+  BellIcon,
+  UserCircleIcon,
+} from "react-native-heroicons/solid";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
+
+import { theme } from "@/constants/theme";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const isDarkTheme = useColorScheme() == "dark";
+  const tabBarBgColor = isDarkTheme ? theme.dark.bgLight : theme.light.bgLight;
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
-      }}>
+        tabBarStyle: {
+          backgroundColor: tabBarBgColor,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: "Servers",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            // <TabBarIcon
+            //   name={focused ? "home" : "home-outline"}
+            //   color={color}
+            // />
+            <HomeModernIcon color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="messages"
         options={{
-          title: 'Explore',
+          title: "Messages",
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <ChatBubbleOvalLeftIcon color={color} />
           ),
+          headerShown: true,
+          headerStyle: {
+            height: 113,
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="notifications"
+        options={{
+          title: "Notifications",
+          tabBarIcon: ({ color, focused }) => <BellIcon color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="you"
+        options={{
+          title: "You",
+          tabBarIcon: ({ color, focused }) => <UserCircleIcon color={color} />,
         }}
       />
     </Tabs>
